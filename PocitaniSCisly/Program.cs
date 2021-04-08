@@ -50,38 +50,114 @@ namespace PocitaniSCisly
 
             return vysledek;
         }
-        private double spocitejFaktorial(int number)
+        private double spocitejFaktorial(int cislo)
         {
-                double result = 1;
+            double vysledek = 1;
 
-                for (int i = 1; i <= number; i++)
-                {
-                    result *= i;
-                }
+            for (int i = 1; i <= cislo; i++)
+            {
+                vysledek *= i;
+            }
 
-                return result;
+            return vysledek;
         }
-        
+
     }
     class CalculateMethodRecursion : CalculationMethod
     {
-        public double Calculate(double x, int n)
+        public override double Calculate(double x, int n)
         {
-            throw new Exception();
+            return spocitejRekurzivne(x, n);
         }
-    }
-    class CalculateMethodWhile : CalculationMethod
-    {
-        public double Calculate(double x, int n)
+
+        private double spocitejRekurzivne(double x, int cislo, int mocnina = 1, double vysledek = 1)
         {
-            throw new Exception();
+            if (mocnina >= cislo - 1)
+            {
+                return vysledek;
+            }
+
+            double factorial = spocitejFaktorial(cislo);
+            vysledek = spocitejUlohu(vysledek, x, mocnina, factorial);
+
+            return spocitejRekurzivne(x, cislo, mocnina + 1, vysledek);
         }
-    }
-    class CalculateMethodDoWhile : CalculationMethod
-    {
-        public double Calculate(double x, int n)
+
+        private double spocitejFaktorial(int cislo, int mocnina = 1, double vysledek = 1)
         {
-            throw new Exception();
+            if (mocnina >= cislo - 1)
+            {
+                return vysledek;
+            }
+
+            vysledek *= mocnina;
+
+            return spocitejFaktorial(cislo, mocnina + 1, vysledek);
+        }
+        class CalculateMethodWhile : CalculationMethod
+        {
+            public override double Calculate(double x, int n)
+            {
+                int mocnina = 1;
+                double vysledek = 1;
+
+                while (mocnina <= n)
+                {
+
+                    double factorial = spocitejFaktorial(mocnina);
+                    vysledek = spocitejUlohu(vysledek, x, mocnina, factorial);
+
+                    mocnina++;
+                }
+
+                return vysledek;
+            }
+
+            private double spocitejFaktorial(int cislo)
+            {
+                int mocnina = 1;
+                double vysledek = 1;
+
+                while (mocnina <= cislo)
+                {
+                    vysledek *= mocnina;
+                    mocnina++;
+                }
+
+                return vysledek;
+            }
+            class CalculateMethodDoWhile : CalculationMethod
+            {
+                public override double Calculate(double x, int n)
+                {
+                    int mocnina = 1;
+                    double vysledek = 1;
+
+                    do
+                    {
+                        double factorial = spocitejFaktorial(mocnina);
+                        vysledek = spocitejUlohu(vysledek, x, mocnina, factorial);
+
+                        mocnina++;
+                    } while (mocnina <= n);
+
+                    return vysledek;
+                }
+
+                private double spocitejFaktorial(int cislo)
+                {
+                    int mocnina = 1;
+                    double vysledek = 1;
+
+                    do
+                    {
+                        vysledek *= mocnina;
+                        mocnina++;
+                    } while (mocnina <= cislo);
+
+                    return vysledek;
+                }
+            }
         }
     }
 }
